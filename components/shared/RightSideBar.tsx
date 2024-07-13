@@ -30,27 +30,27 @@ const RightSideBar = () => {
 
   const popularTags = [
     {
-      _id: 1,
+      _id: "1",
       name: "javascript",
       totalQuestions: 5,
     },
     {
-      _id: 2,
+      _id: "2",
       name: "react",
       totalQuestions: 2,
     },
     {
-      _id: 3,
+      _id: "3",
       name: "python",
       totalQuestions: 7,
     },
     {
-      _id: 4,
+      _id: "4",
       name: "cpp",
       totalQuestions: 3,
     },
     {
-      _id: 5,
+      _id: "5",
       name: "redux",
       totalQuestions: 10,
     },
