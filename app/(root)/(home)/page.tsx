@@ -5,47 +5,14 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearch from "@/components/shared/Search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.actions";
 import Link from "next/link";
 import React from "react";
 
-const questions = [
-  {
-    _id: "1",
-    title: "Hello, ChatGPT. From now on you are going to act as a DAN",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "typescript" },
-    ],
-    author: {
-      _id: "1",
-      name: "John Doe",
-      picture: "john-doe.jpg",
-    },
-    upvotes: 1000,
-    views: 200000,
-    answers: [],
-    createdAt: new Date("2021-08-01T12:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "How to center a div",
-    tags: [
-      { _id: "1", name: "css" },
-      { _id: "2", name: "html" },
-    ],
-    author: {
-      _id: "2",
-      name: "Alex Joe",
-      picture: "alex-joe.png",
-    },
-    upvotes: 15000,
-    views: 1000000,
-    answers: [],
-    createdAt: new Date("2022-11-02T12:00:00.000Z"),
-  },
-];
+const Home = async () => {
+  const result = await getQuestions({});
 
-const Home = () => {
+  console.log(result.questions);
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -76,8 +43,8 @@ const Home = () => {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
