@@ -42,7 +42,7 @@ export async function createQuestion(params: CreateQuestionParams) {
       author,
     });
 
-    const tagsDocuments = [];
+    const tagDocuments = [];
 
     // Create the tags or get them if they already exist
     for (const tag of tags) {
@@ -50,15 +50,15 @@ export async function createQuestion(params: CreateQuestionParams) {
         {
           name: { $regex: new RegExp(`^${tag}$`, "i") },
         },
-        { $setOnInsert: { name: tag }, $push: { question: question._id } },
+        { $setOnInsert: { name: tag }, $push: { questions: question._id } },
         { upsert: true, new: true }
       );
 
-      tagsDocuments.push(existingTag._id);
+      tagDocuments.push(existingTag._id);
     }
 
     await Question.findByIdAndUpdate(question._id, {
-      $push: { tags: { $each: tagsDocuments } },
+      $push: { tags: { $each: tagDocuments } },
     });
 
     // Create an interaction record for the user's ask_question action
@@ -170,4 +170,3 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     throw error;
   }
 }
-
