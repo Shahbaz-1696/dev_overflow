@@ -1,7 +1,7 @@
-import { getUserQuestions } from "@/lib/actions/user.action";
+// import { getUserQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import React from "react";
-import QuestionCard from "../cards/QuestionCard";
+// import QuestionCard from "../cards/QuestionCard";
 
 interface QuestionTabProps extends SearchParamsProps {
   userId: string;
@@ -13,10 +13,10 @@ const QuestionTab = async ({
   userId,
   clerkId,
 }: QuestionTabProps) => {
-  const result = await getUserQuestions({ userId, page: 1 });
+  // const result = await getUserQuestions({ userId, page: 1 });
   return (
     <>
-      {result.questions.map((question) => (
+      {/* {result.questions.map((question) => (
         <QuestionCard
           key={question._id}
           _id={question._id}
@@ -29,7 +29,7 @@ const QuestionTab = async ({
           answers={question.answers}
           createdAt={question.createdAt}
         />
-      ))}
+      ))} */}
     </>
   );
 };
