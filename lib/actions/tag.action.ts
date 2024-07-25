@@ -50,7 +50,7 @@ export async function getAllTags(params: GetAllTagsParams) {
 
 export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     const { tagId, page = 1, pageSize = 10, searchQuery } = params;
 
