@@ -10,6 +10,8 @@ interface AnswerTabProps extends SearchParamsProps {
 
 const AnswerTab = async ({ searchParams, userId, clerkId }: AnswerTabProps) => {
   const result = await getUserAnswers({ userId, page: 1 });
+
+  console.log(result.answers);
   return (
     <>
       {result.answers.map((answer) => (
