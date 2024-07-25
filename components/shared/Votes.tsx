@@ -9,7 +9,6 @@ import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import path from "path";
 import React, { useEffect } from "react";
 
 interface VotesProps {
