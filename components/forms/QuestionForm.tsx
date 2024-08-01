@@ -21,6 +21,7 @@ import Image from "next/image";
 import { createQuestion, editQuestion } from "@/lib/actions/question.actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
+import { toast } from "../ui/use-toast";
 
 interface QuestionFormProps {
   mongoUserId: string;
@@ -64,6 +65,10 @@ const QuestionForm = ({
           content: values.explanation,
           path: pathname,
         });
+        toast({
+          title: `Question Updated`,
+          description: `Your question has been successfully updated`,
+        });
         router.push(`/question/${parsedQuestionDetails._id}`);
       } else {
         // make an async call to your API - create a question
@@ -74,6 +79,11 @@ const QuestionForm = ({
           tags: values.tags,
           author: JSON.parse(mongoUserId),
           path: pathname,
+        });
+
+        toast({
+          title: `Question Posted`,
+          description: `Your question has been successfully posted`,
         });
 
         // navigate to home page

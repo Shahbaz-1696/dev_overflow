@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ProfileSchema } from "@/lib/validations";
 import { usePathname, useRouter } from "next/navigation";
 import { updateUser } from "@/lib/actions/user.action";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   clerkId: string;
@@ -58,6 +59,10 @@ const ProfileForm = ({ clerkId, user }: Props) => {
           portfolioWebsite: values.portfolioWebsite,
         },
         path: pathname,
+      });
+      toast({
+        title: `Profile updated`,
+        description: `Your profile has been successfully updated`,
       });
       router.back();
     } catch (error) {

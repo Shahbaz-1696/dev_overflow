@@ -21,7 +21,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
     // Calculate the number of posts to skip based on the page number and page size.
 
@@ -243,6 +243,7 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
     connectToDatabase();
 
     const { questionId, path } = params;
+    const question = await Question.findById(questionId);
 
     await Question.deleteOne({ _id: questionId });
     await Answer.deleteMany({ question: questionId });
@@ -251,8 +252,6 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
       { questions: questionId },
       { $pull: { questions: questionId } }
     );
-
-    const question = await Question.findById(questionId);
 
     await User.findByIdAndUpdate(question.author, {
       $inc: { reputation: -5 },

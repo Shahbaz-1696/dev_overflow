@@ -16,6 +16,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface AnswerFormProps {
   question: string;
@@ -42,6 +43,11 @@ const AnswerForm = ({ question, questionId, authorId }: AnswerFormProps) => {
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
         path: pathname,
+      });
+
+      toast({
+        title: `Answer Posted`,
+        description: `Your answer has been successfully posted`,
       });
 
       form.reset();
