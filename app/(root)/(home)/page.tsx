@@ -8,8 +8,13 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.actions";
 import { SearchParamsProps } from "@/types";
+import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+};
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
   const result = await getQuestions({
