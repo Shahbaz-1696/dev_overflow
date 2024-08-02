@@ -17,22 +17,11 @@ export async function createAnswer(params: CreateAnswerParams) {
   try {
     connectToDatabase();
 
-    const { author, question, content, path } = params;
+    const { content, author, question, path } = params;
 
-    // Create the answer
+    const newAnswer = await Answer.create({ content, author, question });
 
-    const newAnswer = await Answer.create({
-      author,
-      question,
-      content,
-    });
-
-    await Question.findByIdAndUpdate(question, {
-      $push: { answers: newAnswer._id },
-    });
-
-    // Add the answer to question's answers array
-
+    // Add the answer to the question's answers array
     const questionObject = await Question.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
     });
@@ -40,15 +29,12 @@ export async function createAnswer(params: CreateAnswerParams) {
     await Interaction.create({
       user: author,
       action: "answer",
-      tags: questionObject.tags,
-      answer: newAnswer._id,
       question,
+      answer: newAnswer._id,
+      tags: questionObject.tags,
     });
-    // Increment author's reputation by +10 points for creating a answer
 
-    await User.findByIdAndUpdate(author, {
-      $inc: { reputation: 10 },
-    });
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {

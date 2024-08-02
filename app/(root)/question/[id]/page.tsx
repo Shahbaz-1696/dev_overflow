@@ -14,7 +14,6 @@ import Link from "next/link";
 import React from "react";
 
 const Page = async ({ params, searchParams }: URLProps) => {
-  const result = await getQuestionById({ questionId: params.id });
   const { userId: clerkId } = auth();
 
   let mongoUser;
@@ -22,6 +21,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
+  const result = await getQuestionById({ questionId: params.id });
 
   return (
     <>
@@ -104,8 +104,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
         questionId={result._id}
         userId={mongoUser._id}
         totalAnswers={result.answers.length}
+        page={searchParams?.page}
         filter={searchParams?.filter}
-        // page={searchParams?.page}
       />
 
       <AnswerForm
