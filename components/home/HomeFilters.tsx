@@ -15,7 +15,7 @@ const HomeFilters = () => {
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: "filter",
-        value: null,
+        value: null || "",
       });
 
       router.push(newUrl, { scroll: false });
