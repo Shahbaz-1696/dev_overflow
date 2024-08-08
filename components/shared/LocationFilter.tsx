@@ -8,15 +8,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
+import { Country } from "@/types";
+import NoJobsResult from "./NoJobsResult";
 
 interface LocationFilterProps {
   otherclasses: string;
   containerClasses?: string;
+  countriesList: Country[];
 }
 
 const LocationFilter = ({
   otherclasses,
   containerClasses,
+  countriesList,
 }: LocationFilterProps) => {
   return (
     <div className={`relative ${containerClasses}`}>
@@ -41,12 +45,22 @@ const LocationFilter = ({
         bg-light-900 dark:bg-dark-300"
         >
           <SelectGroup>
-            <SelectItem
-              value="India"
-              className="cursor-pointer focus:bg-light-900 dark:focus:bg-dark-400"
-            >
-              India
-            </SelectItem>
+            {countriesList ? (
+              countriesList.map((country: Country) => (
+                <SelectItem
+                  value={country.name.common}
+                  key={country.name.common}
+                  className="cursor-pointer focus:bg-light-900 dark:focus:bg-dark-400"
+                >
+                  {country.name.common}
+                </SelectItem>
+              ))
+            ) : (
+              <NoJobsResult
+                title="Currently no jobs to show"
+                description="There are currently no jobs found in this location about your mentioned job position."
+              />
+            )}
           </SelectGroup>
         </SelectContent>
       </Select>
