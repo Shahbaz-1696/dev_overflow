@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 import { Country } from "@/types";
-import NoJobsResult from "./NoJobsResult";
 
 interface LocationFilterProps {
   otherclasses: string;
@@ -56,10 +55,12 @@ const LocationFilter = ({
                 </SelectItem>
               ))
             ) : (
-              <NoJobsResult
-                title="Currently no jobs to show"
-                description="There are currently no jobs found in this location about your mentioned job position."
-              />
+              <p
+                className="text-dark500_light700 small-regular border-none
+        bg-light-900 dark:bg-dark-300"
+              >
+                No results found
+              </p>
             )}
           </SelectGroup>
         </SelectContent>

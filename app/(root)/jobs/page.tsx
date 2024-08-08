@@ -1,13 +1,37 @@
 import JobsCard from "@/components/cards/JobsCard";
 import LocationFilter from "@/components/shared/LocationFilter";
 import NoJobsResult from "@/components/shared/NoJobsResult";
+import Pagination from "@/components/shared/Pagination";
 import LocalSearch from "@/components/shared/Search/LocalSearch";
-import { getAllCountries } from "@/lib/actions/jobs.action";
+import {
+  getAllCountries,
+  getJobs,
+  getUserLocation,
+} from "@/lib/actions/jobs.action";
+import { Job } from "@/types";
+import { Metadata } from "next";
 import React from "react";
 
-const Page = async () => {
+export const metadata: Metadata = {
+  title: "Jobs | DevOverflow",
+};
+
+interface Props {
+  searchParams: {
+    q: string;
+    location: string;
+    page: string;
+  };
+}
+
+const Page = async ({ searchParams }: Props) => {
   const countries = await getAllCountries();
-  const result = 1;
+  const userLocation = await getUserLocation();
+  const page = parseInt(searchParams.page ?? 1);
+  const jobs = await getJobs({
+    query: `${searchParams.q} ${searchParams.location} ?? Software Engineer in ${userLocation}`,
+    page: searchParams.page ?? 1,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">Jobs</h1>
@@ -25,16 +49,15 @@ const Page = async () => {
         />
       </div>
 
-      <div className="mt-10 flex w-full flex-col gap-6">
-        {result > 0 ? (
-          <JobsCard
-            logo="/assets/images/site-logo.svg"
-            jobTitle="Posting Link"
-            jobDescription="Using ion propulsion the company’s focus is creating a silent drone with unparalleled power which will completely change how drones are designed. The fully electric"
-            location="Australia"
-            isFullTime={true}
-            jobLink="/"
-          />
+      <div className="light-border mb-9 mt-11 flex flex-col gap-9 border-b pb-9">
+        {jobs.length > 0 ? (
+          jobs.map((job: Job) => {
+            if (job.job_title && job.job_title.toLowerCase() !== "undefined") {
+              return <JobsCard job={job} key={job.id} />;
+            }
+
+            return null;
+          })
         ) : (
           <NoJobsResult
             title="Currently no jobs to show"
@@ -42,6 +65,10 @@ const Page = async () => {
           />
         )}
       </div>
+
+      {jobs.length > 0 && (
+        <Pagination pageNumber={page} isNext={jobs.length === 10} />
+      )}
     </>
   );
 };
